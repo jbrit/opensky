@@ -2,9 +2,13 @@ import {
   Button,
   Dialog,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
 } from "@material-ui/core";
 import React, { useState } from "react";
 
@@ -16,6 +20,7 @@ interface Props {
 
 const GridCard = ({ place }: Props) => {
   const [open, setOpen] = useState(false);
+  const details = place[1].slice(0, 100);
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
       <Button
@@ -36,7 +41,32 @@ const GridCard = ({ place }: Props) => {
           {"More Flight Information"}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>flight content here...</DialogContentText>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>icao24</TableCell>
+                <TableCell align="right">Call Sign</TableCell>
+                <TableCell align="right">Time Position</TableCell>
+                <TableCell align="right">Last Contact</TableCell>
+                <TableCell align="right">Longitude</TableCell>
+                <TableCell align="right">Latitude</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {details.map((detail) => (
+                <TableRow key={detail[0]}>
+                  <TableCell component="th" scope="row">
+                    {detail[0]}
+                  </TableCell>
+                  <TableCell align="right">{detail[1]}</TableCell>
+                  <TableCell align="right">{detail[2]}</TableCell>
+                  <TableCell align="right">{detail[3]}</TableCell>
+                  <TableCell align="right">{detail[4]}</TableCell>
+                  <TableCell align="right">{detail[5]}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </DialogContent>
       </Dialog>
     </Grid>
