@@ -1,5 +1,6 @@
 import { CircularProgress, Grid, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import Carousel from "../components/Carousel";
 import GridCard from "../components/GridCard";
 import { BUSIEST_AIRPORTS } from "../constants";
 
@@ -13,8 +14,9 @@ const HomePage = () => {
   }, []);
   return (
     <>
+      <Carousel />
       <Typography style={{ margin: "3rem 0" }} variant="h5">
-        Top 10 Cities with heavy air traffic
+        Top 10 Airports with heavy air traffic
       </Typography>
       <Grid
         container

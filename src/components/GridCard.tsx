@@ -57,7 +57,7 @@ const GridCard = ({ place }: Props) => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"More Flight Information"}
+          Airport Flight Information (Last 30 minutes)
         </DialogTitle>
         <DialogContent>
           <Tabs
@@ -75,11 +75,11 @@ const GridCard = ({ place }: Props) => {
             <TableHead>
               <TableRow>
                 <TableCell>icao24</TableCell>
-                <TableCell align="right">Call Sign</TableCell>
-                <TableCell align="right">Time Position</TableCell>
-                <TableCell align="right">Last Contact</TableCell>
-                <TableCell align="right">Longitude</TableCell>
-                <TableCell align="right">Latitude</TableCell>
+                <TableCell align="right">Depature Time</TableCell>
+                <TableCell align="right">Depature Airport</TableCell>
+                <TableCell align="right">Arrival Time (Est.)</TableCell>
+                <TableCell align="right">Arrival Airport</TableCell>
+                <TableCell align="right">Plane ID</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
