@@ -31,7 +31,7 @@ const GridCard = ({ place }: Props) => {
       >
         {name}({icao})
       </Button>
-      {/* <Dialog
+      <Dialog
         open={open}
         onClose={() => setOpen(false)}
         aria-labelledby="alert-dialog-title"
@@ -41,7 +41,7 @@ const GridCard = ({ place }: Props) => {
           {"More Flight Information"}
         </DialogTitle>
         <DialogContent>
-          <Table aria-label="simple table">
+          {/* <Table aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>icao24</TableCell>
@@ -67,9 +67,9 @@ const GridCard = ({ place }: Props) => {
               ))}
             </TableBody>
           </Table>
+         */}
         </DialogContent>
       </Dialog>
-     */}
     </Grid>
   );
 };
