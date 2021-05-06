@@ -15,12 +15,12 @@ import React, { useState } from "react";
 type responses = Array<string | number | null>;
 type responsesArray = Array<responses>;
 interface Props {
-  place: [string, responsesArray];
+  place: string[];
 }
 
 const GridCard = ({ place }: Props) => {
   const [open, setOpen] = useState(false);
-  const details = place[1].slice(0, 100);
+  const [icao, name] = place;
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
       <Button
@@ -29,9 +29,9 @@ const GridCard = ({ place }: Props) => {
         fullWidth
         variant="contained"
       >
-        {place[0]}({place[1].length})
+        {name}({icao})
       </Button>
-      <Dialog
+      {/* <Dialog
         open={open}
         onClose={() => setOpen(false)}
         aria-labelledby="alert-dialog-title"
@@ -69,6 +69,7 @@ const GridCard = ({ place }: Props) => {
           </Table>
         </DialogContent>
       </Dialog>
+     */}
     </Grid>
   );
 };
