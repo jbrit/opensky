@@ -174,11 +174,11 @@ const GridCard = ({ place }: Props) => {
                         <TableCell component="th" scope="row">
                           {icao24}
                         </TableCell>
-                        <TableCell align="right">{firstSeen}</TableCell>
+                        <TableCell align="right">{date(firstSeen)}</TableCell>
                         <TableCell align="right">
                           {estDepatureAirport}
                         </TableCell>
-                        <TableCell align="right">{lastSeen}</TableCell>
+                        <TableCell align="right">{date(lastSeen)}</TableCell>
                         <TableCell align="right">{estArrivalAirport}</TableCell>
                       </TableRow>
                     )
