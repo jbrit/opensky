@@ -1,12 +1,16 @@
-import React, { MouseEventHandler } from "react";
+import React, { MouseEventHandler, useState } from "react";
 import CustomInput from "../components/CustomInput";
 import { Button, Container, Paper } from "@material-ui/core";
 
 interface Props {
-  loginFunction: MouseEventHandler;
+  loginFunction: (setError: Function) => MouseEventHandler;
+  setUser: Function;
+  setPass: Function;
 }
 
-const LoginPage = ({ loginFunction }: Props) => {
+const LoginPage = ({ loginFunction, setUser, setPass }: Props) => {
+  const [error, setError] = useState(false);
+
   return (
     <div>
       <Paper
@@ -14,11 +18,25 @@ const LoginPage = ({ loginFunction }: Props) => {
         variant="outlined"
       >
         <Container maxWidth="xs">
+          {error && "Could not authenticate user!"}
           <form>
-            <CustomInput />
-            <CustomInput password />
+            <CustomInput
+              onChange={(e) => {
+                setError(false);
+                setUser(e.target.value);
+              }}
+              error={error}
+            />
+            <CustomInput
+              onChange={(e) => {
+                setError(false);
+                setPass(e.target.value);
+              }}
+              error={error}
+              password
+            />
             <Button
-              onClick={loginFunction}
+              onClick={loginFunction(setError)}
               fullWidth
               disableElevation
               variant="contained"

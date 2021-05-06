@@ -8,13 +8,14 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 
-import React, { useState } from "react";
+import React, { MouseEvent, useState } from "react";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
-
+  const [user, setUser] = useState("");
+  const [pass, setPass] = useState("");
   return (
     <>
       <AppBar position="static">
@@ -39,9 +40,12 @@ function App() {
           <HomePage />
         ) : (
           <LoginPage
-            loginFunction={(e) => {
-              setAuthenticated(true);
+            loginFunction={(setError) => (e: MouseEvent<HTMLElement>) => {
+              if (user === "demo" && pass === "demo") setAuthenticated(true);
+              else setError(true);
             }}
+            setUser={setUser}
+            setPass={setPass}
           />
         )}
       </Container>
