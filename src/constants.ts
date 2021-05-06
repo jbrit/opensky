@@ -1,4 +1,4 @@
-export const API_URL = "https://opensky-network.org/api/states/all";
+export const API_URL = "https://opensky-network.org/api/flights/";
 export const BUSIEST_AIRPORTS = [
   ["KATL", "Hartsfield–Jackson Atlanta International Airport"],
   ["KDFW", "Dallas/Fort Worth International Airport"],

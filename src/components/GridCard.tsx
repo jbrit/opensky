@@ -13,7 +13,8 @@ import {
   TableRow,
   Tabs,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { API_URL } from "../constants";
 
 interface Props {
   place: string[];
@@ -24,6 +25,14 @@ interface TabPanelProps {
   index: any;
   value: any;
 }
+
+type responseArray = {
+  icao24: string;
+  firstSeen: number;
+  estArrivalAirport: string;
+  lastSeen: number;
+  estDepatureAirport: string;
+}[];
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index } = props;
@@ -36,9 +45,40 @@ const GridCard = ({ place }: Props) => {
   const [value, setValue] = useState(0);
   const [icao, name] = place;
 
+  // Arrivals and Depatures
+  const [arrivals, setArrivals] = useState<responseArray>([]);
+  const [depatures, setDepatures] = useState<responseArray>([]);
+
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    const MS_PER_MINUTE = 60000;
+    const myEndDateTime = new Date();
+    const myStartDate = new Date(
+      myEndDateTime.getTime() - 1440 * MS_PER_MINUTE
+    );
+    // time in seconds since epoch
+    const milliToSeconds = (milli: number) => Math.floor(milli / 1000);
+    const [start, end] = [
+      milliToSeconds(myStartDate.getTime()),
+      milliToSeconds(myEndDateTime.getTime()),
+    ];
+    const fetchFlight = async (arrival: boolean) => {
+      const mode = arrival ? "arrival" : "depature";
+      const URL = `${API_URL}${mode}?airport=${icao}&begin=${start}&end=${end}`;
+      const response = await fetch(URL);
+      const data = await response.json();
+      console.log(data);
+      return data;
+    };
+    const fetchFlights = async () => {
+      setArrivals((await fetchFlight(true)).splice(0, 20));
+      setDepatures((await fetchFlight(false)).splice(0, 20));
+    };
+    fetchFlights();
+  }, [icao]);
 
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -57,7 +97,7 @@ const GridCard = ({ place }: Props) => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          Airport Flight Information (Last 30 minutes)
+          Airport Flight Information (Last 24 hours)
         </DialogTitle>
         <DialogContent>
           <Tabs
@@ -68,57 +108,74 @@ const GridCard = ({ place }: Props) => {
             aria-label="disabled tabs example"
           >
             <Tab label="Arrivals" />
-            <Tab label="Depatures" />
+            {/* <Tab label="Depatures" /> */}
           </Tabs>
 
           <Table aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>icao24</TableCell>
+                <TableCell>Plane ID</TableCell>
                 <TableCell align="right">Depature Time</TableCell>
                 <TableCell align="right">Depature Airport</TableCell>
                 <TableCell align="right">Arrival Time (Est.)</TableCell>
                 <TableCell align="right">Arrival Airport</TableCell>
-                <TableCell align="right">Plane ID</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TabPanel value={value} index={0}>
                 {/* Arrivals */}
-                {[0, 1, 2, 3].map((detail) => (
-                  <TableRow key={detail}>
-                    <TableCell component="th" scope="row">
-                      {detail}
-                    </TableCell>
-                    <TableCell align="right">detail 1</TableCell>
-                    <TableCell align="right">detail 2</TableCell>
-                    <TableCell align="right">detail 3</TableCell>
-                    <TableCell align="right">detail 4</TableCell>
-                    <TableCell align="right">detail 5</TableCell>
-                  </TableRow>
-                ))}
-                <CircularProgress
-                  style={{ margin: "auto", display: "none" }}
-                  disableShrink
-                />
+                {arrivals ? (
+                  arrivals.map(
+                    (
+                      {
+                        icao24,
+                        firstSeen,
+                        estDepatureAirport,
+                        lastSeen,
+                        estArrivalAirport,
+                      },
+                      idx
+                    ) => (
+                      <TableRow key={idx}>
+                        <TableCell component="th" scope="row">
+                          {icao24}
+                        </TableCell>
+                        <TableCell align="right">{firstSeen}</TableCell>
+                        <TableCell align="right">
+                          {estDepatureAirport}
+                        </TableCell>
+                        <TableCell align="right">{lastSeen}</TableCell>
+                        <TableCell align="right">{estArrivalAirport}</TableCell>
+                      </TableRow>
+                    )
+                  )
+                ) : (
+                  <CircularProgress
+                    style={{ margin: "auto", display: "none" }}
+                    disableShrink
+                  />
+                )}
               </TabPanel>
               <TabPanel value={value} index={1}>
-                {[0, 1, 2, 3].map((detail) => (
-                  <TableRow key={detail}>
-                    <TableCell component="th" scope="row">
-                      {detail}
-                    </TableCell>
-                    <TableCell align="right">depature 1</TableCell>
-                    <TableCell align="right">depature 2</TableCell>
-                    <TableCell align="right">depature 3</TableCell>
-                    <TableCell align="right">depature 4</TableCell>
-                    <TableCell align="right">depature 5</TableCell>
-                  </TableRow>
-                ))}
-                <CircularProgress
-                  style={{ margin: "auto", display: "none" }}
-                  disableShrink
-                />
+                {/* Arrivals */}
+                {depatures ? (
+                  depatures.map((depature, idx) => (
+                    <TableRow key={idx}>
+                      <TableCell component="th" scope="row">
+                        {depature["icao24"]}
+                      </TableCell>
+                      <TableCell align="right">detail 1</TableCell>
+                      <TableCell align="right">detail 2</TableCell>
+                      <TableCell align="right">detail 3</TableCell>
+                      <TableCell align="right">detail 4</TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <CircularProgress
+                    style={{ margin: "auto", display: "none" }}
+                    disableShrink
+                  />
+                )}
               </TabPanel>
             </TableBody>
           </Table>
