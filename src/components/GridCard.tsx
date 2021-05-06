@@ -108,7 +108,7 @@ const GridCard = ({ place }: Props) => {
             aria-label="disabled tabs example"
           >
             <Tab label="Arrivals" />
-            {/* <Tab label="Depatures" /> */}
+            <Tab label="Depatures" />
           </Tabs>
 
           <Table aria-label="simple table">
@@ -157,19 +157,32 @@ const GridCard = ({ place }: Props) => {
                 )}
               </TabPanel>
               <TabPanel value={value} index={1}>
-                {/* Arrivals */}
+                {/* Depatures */}
                 {depatures ? (
-                  depatures.map((depature, idx) => (
-                    <TableRow key={idx}>
-                      <TableCell component="th" scope="row">
-                        {depature["icao24"]}
-                      </TableCell>
-                      <TableCell align="right">detail 1</TableCell>
-                      <TableCell align="right">detail 2</TableCell>
-                      <TableCell align="right">detail 3</TableCell>
-                      <TableCell align="right">detail 4</TableCell>
-                    </TableRow>
-                  ))
+                  depatures.map(
+                    (
+                      {
+                        icao24,
+                        firstSeen,
+                        estDepatureAirport,
+                        lastSeen,
+                        estArrivalAirport,
+                      },
+                      idx
+                    ) => (
+                      <TableRow key={idx}>
+                        <TableCell component="th" scope="row">
+                          {icao24}
+                        </TableCell>
+                        <TableCell align="right">{firstSeen}</TableCell>
+                        <TableCell align="right">
+                          {estDepatureAirport}
+                        </TableCell>
+                        <TableCell align="right">{lastSeen}</TableCell>
+                        <TableCell align="right">{estArrivalAirport}</TableCell>
+                      </TableRow>
+                    )
+                  )
                 ) : (
                   <CircularProgress
                     style={{ margin: "auto", display: "none" }}
