@@ -52,7 +52,7 @@ const GridCard = ({ place }: Props) => {
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
-
+  const date = (epochTime: number) => new Date(epochTime * 1000).toString();
   useEffect(() => {
     const MS_PER_MINUTE = 60000;
     const myEndDateTime = new Date();
@@ -140,11 +140,11 @@ const GridCard = ({ place }: Props) => {
                         <TableCell component="th" scope="row">
                           {icao24}
                         </TableCell>
-                        <TableCell align="right">{firstSeen}</TableCell>
+                        <TableCell align="right">{date(firstSeen)}</TableCell>
                         <TableCell align="right">
                           {estDepatureAirport}
                         </TableCell>
-                        <TableCell align="right">{lastSeen}</TableCell>
+                        <TableCell align="right">{date(lastSeen)}</TableCell>
                         <TableCell align="right">{estArrivalAirport}</TableCell>
                       </TableRow>
                     )
