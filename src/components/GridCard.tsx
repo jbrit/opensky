@@ -70,7 +70,6 @@ const GridCard = ({ place }: Props) => {
       const URL = `${API_URL}${mode}?airport=${icao}&begin=${start}&end=${end}`;
       const response = await fetch(URL);
       const data = await response.json();
-      console.log(data);
       return data;
     };
     const fetchFlights = async () => {
