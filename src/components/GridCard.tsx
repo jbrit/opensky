@@ -66,7 +66,7 @@ const GridCard = ({ place }: Props) => {
       milliToSeconds(myEndDateTime.getTime()),
     ];
     const fetchFlight = async (arrival: boolean) => {
-      const mode = arrival ? "arrival" : "depature";
+      const mode = arrival ? "arrival" : "departure";
       const URL = `${API_URL}${mode}?airport=${icao}&begin=${start}&end=${end}`;
       const response = await fetch(URL);
       const data = await response.json();
